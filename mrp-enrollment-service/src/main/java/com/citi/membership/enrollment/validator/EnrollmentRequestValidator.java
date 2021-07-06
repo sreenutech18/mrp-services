@@ -45,6 +45,10 @@ public class EnrollmentRequestValidator {
 			throw new EnrollmentReqValidationExcep("ens004", "Invalid Card number ");
 		}
 		
+		if( customerInfo.getCvv == null || " ".equals(customerInfo.getCvv)) {
+			throw new EnrollmentReqValidationExcep("ens004", "Invalid Cvv number ");
+		}
+		
 		
 	}
 
