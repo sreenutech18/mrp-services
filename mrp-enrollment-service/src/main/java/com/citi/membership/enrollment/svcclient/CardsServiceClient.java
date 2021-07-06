@@ -6,5 +6,9 @@ public interface CardsServiceClient {
 	
 	
 	CardDetailsResp getCardDetails(String cardNum);
+	
+        boolean getCardStatus(String cardnum);
+	
+	
 
 }
