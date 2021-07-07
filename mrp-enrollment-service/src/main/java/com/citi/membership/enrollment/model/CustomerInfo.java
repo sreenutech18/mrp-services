@@ -13,6 +13,7 @@ public class CustomerInfo {
 	private String lastName;
 	private String dob;
 	private String emailId;
+	private String toEmailId;
 	private String mobNum;
 	private String enrollDate;
 
