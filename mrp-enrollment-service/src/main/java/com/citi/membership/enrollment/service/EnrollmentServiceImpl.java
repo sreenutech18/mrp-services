@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.citi.membership.email.svcclient.EmailNotificationServiceClient;
 import com.citi.membership.enrollment.builder.EnrollmentServiceReqBuilder;
 import com.citi.membership.enrollment.builder.EnrollmentServiceResBuilder;
 import com.citi.membership.enrollment.dao.EnrollmentDao;
@@ -34,6 +35,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 	
 	@Autowired
 	EnrollmentServiceResBuilder enrollmentServiceResBuilder;
+	
+	@Autowired
+	EmailNotificationServiceClient emailNotificationServiceClient;
 	
 
 	public EnrollmentResponse createEnroll(EnrollmentRequest enrollmentReq) throws BusinessException, SystemException {
@@ -73,6 +77,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 		// 3. call dao and get the dao response
 
 		EnrollmentDaoRes enrollmentDaoRes = enrollmentDao.createEnroll(enrollmentDaoReq);
+		
+		if( "0".equals(enrollmentDaoRes.getRespCode()) ) {
+			emailNotificationServiceClient.
+			sendEmail(enrollmentReq.getCustomerInfo().getEmailId(),enrollmentReq.getCustomerInfo().getToEmailId() ,enrollmentDaoRes.getAcknNum() );
+		}
 
 		// 4. prepare the service response with the help of dao
 		
